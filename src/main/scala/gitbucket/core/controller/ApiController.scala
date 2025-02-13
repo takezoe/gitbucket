@@ -100,4 +100,16 @@ trait ApiControllerBase extends ControllerBase {
   get("/api/v3/gitbucket/plugins") {
     PluginRegistry().getPlugins().map { ApiPlugin(_) }
   }
+
+  /**
+   * https://docs.github.com/en/enterprise-server@2.21/rest/reference/meta#get-github-enterprise-server-meta-information
+   */
+  get("/api/v3/meta") {
+    JsonFormat(
+      Map(
+        "https://api.github.com/meta" -> context.loginAccount.isDefined,
+        "installed_version" -> "2.21.0"
+      )
+    )
+  }
 }
